@@ -9,6 +9,19 @@
                 <div class="invalid-feedback"> 이름을 입력해주세요.</div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="name">전화번호</label>
+                <input type="text" class="form-control" id="phoneNum" name="phoneNum" placeholder="-하이폰 제외" required>
+                <div class="invalid-feedback"> 전화번호를 입력해주세요.</div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="name">거주지(읍/면/동)까지</label>
+                <input type="text" class="form-control" id="residence" name="residence" required>
+                <div class="invalid-feedback"> 거주지를 입력해주세요.</div>
+            </div>
+        </div>
+
         <div class="mb-3">
             <label for="email">이메일</label>
             <input type="email" class="form-control" id="email" name="email"
@@ -35,10 +48,10 @@
             </div>
 
             <div class="col-md-4 mb-3">사용자 생년월일
-                <input class="form-control" name="birth" required>
+                <input class="form-control" name="birth" placeholder="YYMMDD" required>
                 <div class="invalid-feedback" > 생년월일을 입력 해주세요</div>
             </div>
-            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show id-password-alert" id="error_alert" role="alert" placeholder="YYMMDD" >
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show id-password-alert" id="error_alert" role="alert"  >
                 <strong> 동물등록번호</strong> 혹은 <strong>생년월일</strong>을 정확히 입력해주세요
             </div>
         </div>

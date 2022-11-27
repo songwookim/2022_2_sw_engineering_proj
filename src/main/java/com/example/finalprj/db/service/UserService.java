@@ -136,6 +136,9 @@ public class UserService {
         json.put("id", user.getId());
         json.put("name", user.getName());
         json.put("email", user.getEmail());
+        json.put("phone_num", user.getPhoneNumber());
+        json.put("birth", user.getPhoneNumber());
+        json.put("residence", user.getResidence());
         json.put("dog_num", user.getDogNum());
         json.put("dogNm", user.getDog().dogNm);
         json.put("kindNm", user.getDog().kindNm);

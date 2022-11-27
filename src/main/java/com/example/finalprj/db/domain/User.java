@@ -21,10 +21,14 @@ public class User extends BaseEntity implements UserDetails {
     private Long id;
 
     private String name;
-
     @Column(unique = true)
     private String email;
     private String password;
+    private String residence;
+    private int isMember;
+    private String birth;
+    @JsonProperty("phone_num") // 전화번호
+    private String phoneNumber;
     private boolean enabled;
 
     @JsonProperty("dog_num") // 동물등록번호

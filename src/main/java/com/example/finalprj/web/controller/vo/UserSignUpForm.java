@@ -18,5 +18,7 @@ public class UserSignUpForm {
     private String email;
     private String password;
     private String rePassword;
+    private String phoneNum;
+    private String residence;
 
 }

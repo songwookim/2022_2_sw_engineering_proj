@@ -113,6 +113,9 @@ public class PageController {
             dogService.save(dog);
             user.setDogNum(dogNum);
             user.setDog(dog);
+            user.setBirth(form.getBirth());
+            user.setResidence(form.getResidence());
+            user.setPhoneNumber(form.getPhoneNum());
             User saved = userService.save(user);
 
             userService.addAuthority(saved.getId(), Authority.ROLE_USER);

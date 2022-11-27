@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+
+    <th:block th:replace="fragments/commonHead :: header"></th:block>
+    <style>
+        .card-header-text {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: black;
+        }
+
+        .put-area-outer {
+            border: 5px solid rgb(156, 184, 236);
+
+            border-radius: 10px;
+        }
+
+        .put-area-inner {
+            color: rgb(93, 141, 231);
+        }
+
+        .put-area-inner:hover {
+            color: rgb(32, 101, 228);
+        }
+    </style>
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <div th:replace="fragments/topbar :: topbar"></div>
+
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="mb-4">
+                    <h1 class="h3 mt-5 text-gray-800">놀이터 공지사항 추가,삭제 및 수정</h1>
+
+                </div>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-10 mb-5 px-0" th:each="notice : ${notices}">
+                        <div class="card shadow">
+                            <div class="card card-header p-3 flex-row justify-content-between">
+                                <div><span class="card-header-text" th:text="${notice.id}+'. '">index. </span>
+                                    <span class="card-header-text" th:id="'card-header-'+${notice.id}"
+                                          th:text="${notice.subject}">제목</span>
+                                </div>
+                                <a class="align-self-center" data-toggle="collapse"
+                                   th:href="'#collapseContent'+${notice.id}"
+                                   role="button" aria-expanded="false" th:aria-controls="'collapseExample'+${notice.id}">
+                                    <i class="card-header-text text-gray-500 fas fa-caret-down"
+                                       style="font-size: 1.75rem"></i>
+                                </a>
+                            </div>
+                            <div class="collapse" th:id="'collapseContent'+${notice.id}">
+                                <div class="card card-body pt-4">
+                                    <div th:id="'card-body-'+${notice.id}" th:text="${notice.content}">내용
+                                    </div>
+                                    <div>
+                                        <ul class="navbar-nav flex-row mt-4 justify-content-end pr-4">
+                                            <li class="mr-4" role="button" data-toggle="modal"
+                                                th:data-target="'#editModal'+${notice.id}">
+                                                <i class="fas fa-edit text-primary">&nbsp내용 수정</i>
+                                            </li>
+                                            <li role="button" data-toggle="modal"
+                                                th:data-target="'#deleteModal'+${notice.id}">
+                                                <i class="fas fa-trash text-primary">&nbsp삭제</i>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" th:id="'deleteModal'+${notice.id}" tabindex="-1" role="dialog"
+                             th:aria-labelledby="'deleteModalLabel'+${notice.id}"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" th:id="'deleteModalLabel'+${notice.id}">알림</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        정말로 삭제하시겠습니까?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">아니오
+                                        </button>
+                                        <form th:method="delete" action="/manager/notices">
+                                            <input name="id" th:value="${notice.id}" hidden>
+                                            <button type="submit" class="btn btn-primary">삭제</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Edit Modal -->
+                        <div class="modal fade" th:id="'editModal'+${notice.id}" tabindex="-1" role="dialog"
+                             th:aria-labelledby="'editModalLabel'+${notice.id}"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title modal-title-edit"
+                                            th:id="'editModalLabel'+${notice.id}">내용 수정</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form th:method="put" th:action="@{/manager/notices}">
+                                        <div class="modal-body modal-body-edit">
+                                            <div class="form-group">
+                                                <label th:for="'modal-edit-subject'+${notice.id}"
+                                                       class="col-form-label">제목</label>
+                                                <input type="text" name="subject" class="form-control"
+                                                       th:id="'modal-edit-subject'+${notice.id}"
+                                                       th:value="${notice.subject}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label th:for="'modal-edit-message-text'+${notice.id}"
+                                                       class="col-form-label">내용</label>
+                                                <textarea class="form-control" name="content"
+                                                          th:id="'modal-edit-message-text'+${notice.id}"
+                                                          th:text="${notice.content}"></textarea>
+                                            </div>
+                                            <input type="text" name="id" th:value="${notice.id}" hidden>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">완료</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-10 row justify-content-center py-4 px-0 put-area-outer">
+                        <a role="button" data-toggle="modal" data-target="#postModal">
+                            <i class="fa fa-plus put-area-inner" style="font-size: 1.75rem;"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- End of Main Content -->
+
+        <footer th:replace="fragments/footer"></footer>
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+
+<!-- post Modal -->
+<div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="postModalLabel">추가하기</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="/manager/notices">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="modal-post-subject" class="col-form-label">제목</label>
+                        <input type="text" class="form-control" id="modal-post-subject" name="subject">
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-post-content" class="col-form-label">내용</label>
+                        <textarea class="form-control" id="modal-post-content" name="content"></textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    <button type="submit" class="btn btn-primary">완료</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:replace="fragments/core-js :: core-js"></script>
+
+<script th:inline="javascript">
+    var notices = [[ ${notices}]]
+    console.log(notices)
+
+    // $('#editModal').on('show.bs.modal', function (event) {
+    //     var button = $(event.relatedTarget) // Button that triggered the modal
+    //     var recipient = button.data('whatever') // Extract info from data-* attributes
+    //     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    //     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    //     var text1 = $("#card-header-1").text()
+    //     var text2 = $("#card-body-1").text()
+    //     var modal = $(this)
+    //     modal.find('.modal-body input').val(text1)
+    //     modal.find('.modal-body textarea').val(text2)
+    // })
+</script>
+</body>
+
+</html>

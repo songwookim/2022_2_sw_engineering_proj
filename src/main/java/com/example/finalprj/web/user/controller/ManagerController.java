@@ -1,12 +1,13 @@
 package com.example.finalprj.web.user.controller;
 
-import com.example.finalprj.db.domain.Entry;
-import com.example.finalprj.db.domain.Photo;
-import com.example.finalprj.db.domain.User;
+import com.example.finalprj.db.domain.*;
 import com.example.finalprj.db.service.EntryService;
+import com.example.finalprj.db.service.NoticeService;
 import com.example.finalprj.db.service.PhotoService;
 import com.example.finalprj.db.service.UserService;
+import com.example.finalprj.web.user.controller.vo.NoticeForm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ public class ManagerController {
     private final UserService userService;
     private final EntryService entryService;
     private final PhotoService photoService;
+    private final NoticeService noticeService;
 
     @GetMapping("/usage")
     public String usage(@AuthenticationPrincipal User user, Model model) {
@@ -103,7 +105,43 @@ public class ManagerController {
     }
 
     //////////////////////////////////////////////////////////
+    //////////////////////공지사항/////////////////////////////////
+    @GetMapping("/notices")
+    public String notices(Model model) {
+        List<Notice> notices = noticeService.findAll();
 
+        model.addAttribute("notices", notices);
+        model.addAttribute("site", "notices");
+        model.addAttribute("url", "manager");
+        return "notices";
+    }
+
+    @PostMapping(value = "/notices", consumes = {"application/x-www-form-urlencoded;charset=UTF-8", MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public String notices(NoticeForm noticeForm, Model model) {
+        Notice notice = Notice.builder()
+                .subject(noticeForm.getSubject())
+                .content(noticeForm.getContent())
+                .build();
+        noticeService.save(notice);
+
+        model.addAttribute("site", "notices");
+        model.addAttribute("complete", "완료");
+        return "redirect:/manager/notices";
+    }
+
+    @DeleteMapping("/notices")
+    public String notices(Long id) {
+        noticeService.deleteById(id);
+        return "redirect:/manager/notices";
+    }
+
+    @PutMapping(value = "/notices")
+    public String notices(Notice notice) {
+        noticeService.updateNotice(notice);
+        return "redirect:/manager/notices";
+    }
+
+    //////////////////////////////////////////////////////////
     @GetMapping("/list")
     public String list(@AuthenticationPrincipal User user, Model model) {
 

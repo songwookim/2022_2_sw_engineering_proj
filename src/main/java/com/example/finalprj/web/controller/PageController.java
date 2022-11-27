@@ -34,6 +34,7 @@ public class PageController {
     private final PlaygroundRepository playgroundRepository;
     private final EntryService entryService;
     private final FaqService faqService;
+    private final NoticeService noticeService;
     private final DogService dogService;
 
     private RequestCache requestCache = new HttpSessionRequestCache();
@@ -145,6 +146,7 @@ public class PageController {
     @GetMapping("/main/{id}")
     public String mainPage(@AuthenticationPrincipal User user, @PathVariable(name = "id") long playgroundId, Model model) {
         Playground playground = playgroundService.findById(playgroundId).get();
+        List<Notice> notices = noticeService.findAll();
 
         if (user.getAuthorities().contains(Authority.ADMIN_AUTHORITY)) { // 관리자페이지
             user.setPlayground(playground);
@@ -164,6 +166,7 @@ public class PageController {
         model.addAttribute("url", "manager");
         model.addAttribute("id", playgroundId);
         model.addAttribute("kakaokey", kakaokey);
+        model.addAttribute("notices",notices);
         return "main";
     }
 

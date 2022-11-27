@@ -1,0 +1,117 @@
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charSet="UTF-8">
+    <link type="text/css" rel="stylesheet" href="/css/index1.css">
+    <th:block th:replace="fragments/commonHead :: header"></th:block>
+    <style>
+        body {
+            background-color: #FFE16E;
+        }
+
+        @keyframes t1 {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes t2 {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0px);
+                opacity: 1;
+            }
+        }
+
+        @keyframes t3 {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(50px);
+                opacity: 1;
+            }
+        }
+        .t1, .t2, .t3{
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+            opacity: 0;
+            color: white;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .t1{
+            animation-name: t1;
+        }
+        .t2{
+            animation-name: t2;
+            animation-delay: 1s;
+        }
+        .t3{
+            animation-name: t3;
+            animation-delay: 2s;
+        }
+
+    </style>
+</head>
+<body>
+<main>
+    <div class="container">
+        <div class="box">
+            <div class="col-sm-12">
+                <h1 class="t1">반려견 놀이터 예약/관리 플랫폼</h1>
+                <h1 class="t2">The dog and I</h1>
+                <a class="text-white t3 d-block" style="font-size: 2.3rem; z-index: 5" href="/login">시작하기</a>
+            </div>
+            <div class="col-sm-12">
+                <div class="dog mx-4">
+                    <div class="dog-body">
+                        <div class="dog-tail">
+                            <div class="dog-tail">
+                                <div class="dog-tail">
+                                    <div class="dog-tail">
+                                        <div class="dog-tail">
+                                            <div class="dog-tail">
+                                                <div class="dog-tail">
+                                                    <div class="dog-tail"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dog-torso"></div>
+                    <div class="dog-head">
+                        <div class="dog-ears">
+                            <div class="dog-ear"></div>
+                            <div class="dog-ear"></div>
+                        </div>
+                        <div class="dog-eyes">
+                            <div class="dog-eye"></div>
+                            <div class="dog-eye"></div>
+                        </div>
+                        <div class="dog-muzzle">
+                            <div class="dog-tongue"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ball" tabindex="0"></div>
+            </div>
+        </div>
+    </div>
+</main>
+<script th:replace="fragments/core-js :: core-js"/>
+</body>
+</html>

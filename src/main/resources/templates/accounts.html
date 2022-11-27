@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <th:block th:replace="fragments/commonHead :: header"></th:block>
+
+    <style>
+
+    </style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <div th:replace="fragments/topbar :: topbar"></div>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">놀이터 관리자 계정 관리</h1>
+                    </div>
+
+                    <div>
+                        <table class="table table-striped re">
+                            <thead>
+                                <tr class="d-flex">
+                                    <th scope="col" class="col-1 text-center">index</th>
+                                    <th scope="col" class="col-3">이메일</th>
+                                    <th scope="col" class="col-2">이름</th>
+                                    <th scope="col" class="col-3 ">관리 놀이터</th>
+                                    <th scope="col" class="col-3"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="d-flex" th:each="manager : ${managers}">
+                                    <th scope="row" class="col-1 text-center align-self-center" th:text="${managerStat.index+1}" >index</th>
+                                    <td scope="col" class="col-3 align-self-center" th:text="${manager.email}">이메일</td>
+                                    <td scope="col" class="col-2 align-self-center" th:text="${manager.name}" >이름</td>
+                                    <td scope="col" class="col-3 align-self-center" th:text="${manager.playground.pgName}">관리 공원 이름</td>
+                                    <td scope="col" class="col-3">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                            th:data-target="'#deleteModal'+${manager.id}" >
+                                            <i class="fas fa-user-times"></i>
+                                        </button>
+                                    </td>
+
+                                    <!-- delete Modal -->
+                                    <div class="modal fade" th:id="'deleteModal'+${manager.id}" tabindex="-1" role="dialog"
+                                         aria-labelledby="deleteModalLabel" th:aria-labelledby="'deleteModalLabel'+${manager.id}" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" th:id="'deleteModalLabel'+${manager.id}">알림</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    정말로 삭제하시겠습니까?
+                                                </div>
+                                                <form th:method="delete" th:action="@{/admin/accounts}">
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">아니오</button>
+                                                        <input th:value="${manager.id}" name="id" hidden>
+                                                        <button type="submit" class="btn btn-primary">삭제</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer th:replace="fragments/footer"/>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+
+    <script th:replace="fragments/core-js :: core-js"></script>
+
+</body>
+
+</html>

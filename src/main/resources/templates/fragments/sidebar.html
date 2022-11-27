@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" th:fragment="sidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand flex align-items-center justify-content-center" th:if="${url} == admin" th:href="@{/admin}">
+        <div class="sidebar-brand-text" style="font-size: larger;">The dog and I</div>
+    </a>
+
+    <a class="sidebar-brand flex align-items-center justify-content-center" th:unless="${url} == admin"
+       th:href="@{/main}">
+        <div class="sidebar-brand-text" style="font-size: larger;">The dog and I</div>
+    </a>
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!--    /admin 이 사용하는 사이드바-->
+    <!-- Nav Item - FAQ (admin)-->
+    <div sec:authorize="hasRole('ADMIN')">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item" th:classappend="${site} == admin ? active">
+            <a class="nav-link" th:href="@{/admin}">
+                <i class="fas fa-fw fa-home"></i>
+                <span>홈페이지 관리자 메인화면</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">
+            홈페이지 관리
+        </div>
+
+        <li class="nav-item" th:classappend="${site} == faqs ? active">
+            <a class="nav-link" th:href="@{/admin/faqs} ">
+                <i class="fas fa-fw fa-question"></i>
+                <span>홈페이지 FAQ</span></a>
+        </li>
+
+
+        <!-- Nav Item - accounts (admin) -->
+        <li class="nav-item" th:classappend="${site} == accounts ? active">
+            <a class="nav-link" th:href="@{/admin/accounts} ">
+                <i class="fas fa-fw fa-user"></i>
+                <span>관리자 계정</span></a>
+        </li>
+
+    </div>
+
+
+<!--    /////////////////매니저/////////////////-->
+    <!--    현재 사용중인 목록 -->
+    <div sec:authorize="hasRole('MANAGER')">
+
+        <li class="nav-item" th:if="${url} != admin" th:classappend="${site} == main ? active">
+
+            <!-- Divider -->
+            <hr class="sidebar-divider" sec:authorize="hasRole('ADMIN')">
+
+            <a class="nav-link" th:href="@{/main}">
+                <i class="fas fa-fw fa-home"></i>
+                <span sec:authorize="hasRole('ADMIN')">놀이터 </span><span>메인화면</span>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+        </li>
+
+
+        <div th:if="${url} != admin">
+            <div class="sidebar-heading">
+                내 놀이터 관리
+            </div>
+
+            <li class="nav-item" th:classappend="${site} == usage ? active">
+                <a class="nav-link" th:href="@{/manager/usage}">
+                    <i class="fas fa-fw fa-door-open"></i>
+                    <span>출입 관리</span></a>
+            </li>
+
+            <li class="nav-item" th:classappend="${site} == reservation ? active">
+                <a class="nav-link" th:href="@{/manager/reservation}">
+                    <i class="far fa-fw fa-calendar-alt"></i>
+                    <span>예약 관리</span></a>
+            </li>
+
+            <li class="nav-item" th:classappend="${site} == images ? active">
+                <a class="nav-link" th:href="@{/manager/images}">
+                    <i class="fas fa-images"></i>
+                    <span>놀이터 사진 관리</span></a>
+            </li>
+
+            <li class="nav-item" th:classappend="${site} == list ? active">
+                <a class="nav-link" th:href="@{/manager/list}">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span>놀이터 전체 출입 기록</span></a>
+            </li>
+
+        </div>
+    </div>
+
+    <!--    ///////////////////USER SIDEBAR//////////////////// -->
+    <div sec:authorize="hasRole('USER')">
+        <!-- 권한에 따라 분기할려고 if문 만듦 -->
+        <li class="nav-item" th:classappend="${site} == main ? active">
+            <a class="nav-link" th:href="@{/main}">
+                <i class="fas fa-fw fa-home"></i>
+                <span>메인화면</span>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+        </li>
+
+        <div class="sidebar-heading">
+            마이페이지
+        </div>
+
+        <li class="nav-item" th:classappend="${site} == reservation ? active">
+            <a class="nav-link" th:href="@{/user/reservation}">
+                <i class="fas fa-fw fa-door-open"></i>
+                <span>예약 신청 확인</span></a>
+        </li>
+
+        <li class="nav-item" th:classappend="${site} == list ? active">
+            <a class="nav-link" th:href="@{/user/list}">
+                <i class="far fa-fw fa-calendar-alt"></i>
+                <span>내 놀이터 출입 기록</span></a>
+        </li>
+    </div>
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+</ul>
+<!-- End of Sidebar -->
+
+</body>
+</html>

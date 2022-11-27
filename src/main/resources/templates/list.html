@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/commonHead :: header"></th:block>
+
+    <!-- Custom styles for this page -->
+    <link type="text/css" href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <style>
+        .text-red {
+            color: darkred;
+        }
+
+        .border-left-red {
+            border-left: 4px solid darkred;
+        }
+
+        .text-purple {
+            color: rebeccapurple;
+        }
+
+        .border-left-purle {
+            border-left: 4px solid rebeccapurple;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <div th:replace="fragments/topbar :: topbar"></div>
+
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="mb-4">
+                    <h1 class="h3 mb-0 text-gray-800"></h1>
+                </div>
+
+                <!-- DataTales -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">놀이터 전체 출입 기록</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Index</th>
+                                    <th>성명</th>
+                                    <th>동물등록번호</th>
+                                    <th>입장시간</th>
+                                    <th>퇴장시간</th>
+                                    <th>예약번호</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Index</th>
+                                    <th>성명</th>
+                                    <th>동물등록번호</th>
+                                    <th>입장시간</th>
+                                    <th>퇴장시간</th>
+                                    <th>예약번호</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                <th:block th:each="entry : ${entries}">
+                                    <tr>
+                                        <td th:text="${entryStat.index}+1">Index</td>
+                                        <td th:text="${users.get(entryStat.index).name}">이름</td>
+                                        <td th:text="${users.get(entryStat.index).dogNum}">강아지 번호</td>
+                                        <td th:text="${#temporals.format(entry.updatedAt,'yyyy-MM-dd HH:mm:ss')}">입장</td>
+                                        <td th:text="${#temporals.format(entry.createdAt,'yyyy-MM-dd HH:mm:ss')}">퇴장</td>
+                                        <td th:text="${entry.id}">예약번호</td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <footer th:replace="fragments/footer"></footer>
+    </div>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+
+<script th:replace="fragments/core-js :: core-js"></script>
+<!-- Page level plugins -->
+<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/js/demo/datatables-demo.js"></script>
+
+</body>
+
+</html>

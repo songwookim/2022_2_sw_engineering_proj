@@ -1,0 +1,91 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:fragment="signUpUser(error)">
+    <h4 class="mb-3 text-center">유저 회원 가입</h4>
+    <form class="validation-form" novalidate method="post" action="/signup?site=user">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="name">이름</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+                <div class="invalid-feedback"> 이름을 입력해주세요.</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="email">이메일</label>
+            <input type="email" class="form-control" id="email" name="email"
+                   placeholder="you@example.com" required/>
+            <div class="invalid-feedback"> 이메일을 입력해주세요.</div>
+        </div>
+        <div class="mb-3">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" id="password" name="password"
+                   onkeyup='check();' required/>
+            <div class="invalid-feedback ps"> 비밀번호를 입력해주세요.</div>
+        </div>
+        <div class="mb-3">
+            <label for="rePassword">비밀번호 확인</label> <span id='message'></span>
+            <input type="password" class="form-control" id="rePassword"
+                   name="rePassword" onkeyup='check();' required/>
+            <div class="invalid-feedback ps"> 비밀번호를 다시 입력해주세요.</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 mb-3">동물 등록 번호
+                <input class="form-control" name="dogNum" required>
+                <div class="invalid-feedback"> 동물 등록 번호를 입력해주세요.</div>
+            </div>
+
+            <div class="col-md-4 mb-3">사용자 생년월일
+                <input class="form-control" name="birth" required>
+                <div class="invalid-feedback" > 생년월일을 입력 해주세요</div>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show id-password-alert" id="error_alert" role="alert" placeholder="YYMMDD" >
+                <strong> 동물등록번호</strong> 혹은 <strong>생년월일</strong>을 정확히 입력해주세요
+            </div>
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">가입 완료</button>
+    </form>
+
+<!--    &lt;!&ndash; search Modal &ndash;&gt;-->
+<!--    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog"-->
+<!--         aria-labelledby="searchModalLabel"-->
+<!--         aria-hidden="true">-->
+<!--        <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title modal-title-edit"-->
+<!--                        id="searchModalLabel">내용 수정</h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <form method="put" th:action="@{/admin/faqs}">-->
+<!--                    <div class="modal-body modal-body-search">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="modal-search-subject"-->
+<!--                                   class="col-form-label">제목</label>-->
+<!--                            <input type="text" name="subject" class="form-control"-->
+<!--                                   id="modal-search-subject"-->
+<!--                                   value>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="modal-search-message-text"-->
+<!--                                   class="col-form-label">내용</label>-->
+<!--                            <textarea class="form-control" name="content"-->
+<!--                                      id="modal-search-message-text"-->
+<!--                            ></textarea>-->
+<!--                        </div>-->
+<!--                        <input type="text" name="id" hidden>-->
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기-->
+<!--                        </button>-->
+<!--                        <button type="submit" class="btn btn-primary">완료</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+
+

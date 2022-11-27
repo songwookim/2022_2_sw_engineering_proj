@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--    <meta charset="UTF-8">-->
+    <!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <!--    <title>회원가입</title>-->
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"-->
+    <!--          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+
+    <th:block th:replace="fragments/commonHead :: header"></th:block>
+    <style>
+        body {
+            min-height: 100vh;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        footer {
+            bottom: 0;
+            display: block;
+            width: 100%;
+            margin: 0;
+            position: fixed;
+        }
+    </style>
+</head>
+<body>
+<!-- Content Wrapper -->
+<div class="container">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <!-- Card Body -->
+        <div class="card-body row">
+            <div class="col-lg-6 d-none d-lg-block">
+                <img src="http://ci2021playdang.dongyangmirae.kr/register.jpg" class="my-n5 mx-n4 d-lg-inline d-none"/>
+            </div>
+            <div class="p-4 pt-5 col-lg-6">
+                <div th:if="${site} == 'manager'" >
+                    <th:block th:replace="fragments/signUpManager :: signUpManager"></th:block>
+                </div>
+                <div th:unless="${site} == 'manager'" >
+                    <th:block th:replace="fragments/signUpUser :: signUpUser(${error})" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments/footer"/>
+
+<script>
+    window.addEventListener('load', () => {
+        const forms = document.getElementsByClassName('validation-form');
+
+        Array.prototype.filter.call(forms, (form) => {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+
+    var check = function () {
+        if (document.getElementById('password').value ==
+            document.getElementById('rePassword').value) {
+            document.getElementById('message').innerHTML = '';
+        } else {
+            document.getElementById('message').style.color = 'red';
+            document.getElementById('message').style.fontSize = '12px';
+            document.getElementById('message').style.marginLeft = '10px';
+            document.getElementById('message').innerHTML = '비밀번호가 맞지 않습니다.';
+        }
+    }
+</script>
+</body>
+</html>

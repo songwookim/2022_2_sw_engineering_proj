@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<!--    <meta charset="UTF-8">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>로그인</title>-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"-->
+<!--          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+<!--    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">-->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <th:block th:replace="fragments/commonHead :: header"></th:block>
+    <style>
+        body {
+            min-height: 100vh;
+
+            /*background: -webkit-gradient(linear, left bottom, right top, from(#92c4db), to(#1d466c));*/
+            /*background: -webkit-linear-gradient(bottom left, #FFCCCC 0%, #fff 100%);*/
+            /*background: -moz-linear-gradient(bottom left, #FFCCCC 0%, #fff 100%);*/
+            /*background: -o-linear-gradient(bottom left, #FFCCCC 0%, #fff 100%);*/
+            /*background: linear-gradient(to top right, #FFCCCC 0%, #fff 100%);*/
+        }
+        /*container*/
+        .container1 {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .input-form {
+            width: 50vw;
+            max-width: 500px;
+            margin-top: 80px;
+            background: #fff;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border: 1px solid darkblue;
+            border-radius: 10px;
+            height: 434px;
+            padding: 80px 32px 32px;
+        }
+
+        img {
+            width: 70%;
+            height: 70%;
+        }
+        .img {
+            width: 40em;
+            padding-left: 70px;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            display: block;
+            width: 100%;
+            margin: 0;
+        }
+        .validation-form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .register1 {
+            color: darkgray;
+        }
+        .register2 {
+            font-size: 1.1em;
+            margin-left: 2px;
+        }
+        .from_reg{
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container1">
+    <div class="img d-none d-md-block">
+        <img src="http://ci2021playdang.dongyangmirae.kr/logo.png" class="img-fluid"/>
+    </div>
+    <div class="input-form-background row">
+        <div class="input-form col-md-12 mx-auto" style="min-width: 450px">
+            <form class="validation-form" method="post" th:action="@{/login}">
+
+                <div class="mb-4">
+                    <input type="email" class="form-control" id="username" name="username" placeholder="Email Address" required />
+                    <div class="invalid-feedback"> 이메일을 입력해주세요.</div>
+                </div>
+                <div class="mb-4">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
+                    <div class="invalid-feedback ps"> 비밀번호를 입력해주세요.</div>
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn" type="submit">로그인</button>
+            </form>
+
+            <hr class="my-12"/>
+            <div class="text-center">
+                <span class="register1 small">계정이 없으신가요?</span>
+                <a href="/signup?site=user" class="register2 text-primary small" >유저</a> /
+                <a href="/signup?site=manager" class="register2 text-primary small" >관리자</a>
+            </div>
+
+            <!-- 상태에 따라 보여지는 부분이 달라짐 -->
+            <div class="from_reg" th:if="${register} or ${error}"></div>
+            <div th:if="${register}" class="alert alert-success alert-dismissible fade show id-password-alert"  id="register_alert" role="alert">
+                <strong><i class="far fa-check-circle"></i> 회원가입 </strong>이 완료되었습니다.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert('register_alert')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show id-password-alert" id="error_alert" role="alert">
+                <strong> 이메일</strong> 혹은 <strong>패스워드</strong> 가 올바르지 않습니다.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert('error_alert')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments/footer"/>
+
+<script>
+    window.addEventListener('load', () => {
+        const forms = document.getElementsByClassName('validation-form');
+
+        Array.prototype.filter.call(forms, (form) => {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+
+
+</script>
+<script>
+    $(document).ready(() => {
+        const alert = $('.alert');
+        if (alert) {
+            setTimeout(() => $(alert).hide(), 5000);
+        }
+    })
+</script>
+
+</body>
+</html>

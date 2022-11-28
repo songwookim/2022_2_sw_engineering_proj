@@ -124,7 +124,71 @@
     </div>
 
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6c17a22e95f421aa566af7eb9a3fa2ea" ></script>
+    <script th:inline="javascript">
+        var notices = [[ ${notices} ]]
 
+        function httpAlertGet()
+        {
+            url1 = "http://3.34.74.19:8080/api/alert"
+            url2 = "http://localhost:8080/api/alert"
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", url1, false ); // false for synchronous request
+            xmlHttp.send( null );
+            return xmlHttp.responseText;
+        }
+        function httpTrashGet()
+        {
+            url1 = "http://3.34.74.19:8080/api/trash"
+            url2 = "http://localhost:8080/api/trash"
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", url1, false ); // false for synchronous request
+            xmlHttp.send( null );
+            return xmlHttp.responseText;
+        }
+
+        function notify(msg, time, mark) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'bottom-left',
+                showConfirmButton: false,
+                timer: time,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseclick', Swal.close)
+                    // toast.addEventListener('mouseleave', Swal.Close)
+                }
+            })
+
+            Toast.fire({
+                icon: mark,
+                title: msg
+            })
+        }
+        function notify2(msg, time, mark) {
+            Swal.fire(
+                '새 알림',         // Alert 제목
+                msg,  // Alert 내용
+                mark,                         // Alert 타입
+            );
+        }
+        function checkAndAlam1() {
+            signAlert = httpAlertGet();
+            if (signAlert === "1") {
+                notify("이용자가 호출하였습니다.", 30000, 'question');
+            }
+        }
+        function checkAndAlam2() {
+            signTrash = httpTrashGet();
+            if (signTrash === "1") {
+                notify2("배변봉투함이 가득 찬 상태입니다.", 30000, 'info');
+            }
+        }
+        // getNotificationPermission();
+        setInterval(checkAndAlam2, 5000);  // 배변봉투함 : (5분 단위로 확인)
+        setInterval(checkAndAlam1, 5000);    // 이용자 알림 : 단위로 확인)
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script th:inline="javascript">
         let lat = [[${pg.lat}]];
         lat = Number(RegExp(/[0-9.]+/g).exec(lat)[0]);
@@ -156,4 +220,5 @@
         // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
         // marker.setMap(null);
     </script>
+
 </th:block>

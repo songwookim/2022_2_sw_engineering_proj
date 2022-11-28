@@ -11,14 +11,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "alert")
 @Entity
-@Table(name = "notice")
-public class Notice extends BaseEntity{
+public class Alert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String subject;
-    private String content;
-
+    private int status;
 }

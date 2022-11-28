@@ -76,7 +76,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         if(savedRequest != null) {
             String redirectUrl = savedRequest.getRedirectUrl();
-            String regex = "/vendor/\\w+";
+            String regex = "/vendor|pi/\\w+";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(redirectUrl);
             boolean isVendor = matcher.find();

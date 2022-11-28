@@ -1,17 +1,13 @@
 package com.example.finalprj.api.controller;
 
 import com.example.finalprj.api.dao.PhotoDao;
-import com.example.finalprj.api.dao.TrashDao;
 import com.example.finalprj.api.dto.Photo;
-import com.example.finalprj.api.dto.Trash;
-import com.example.finalprj.db.domain.Dog;
-import com.example.finalprj.db.domain.Entry;
-import com.example.finalprj.db.domain.User;
-import com.example.finalprj.db.service.DogService;
-import com.example.finalprj.db.service.EntryService;
-import com.example.finalprj.db.service.PlaygroundService;
-import com.example.finalprj.db.service.UserService;
+import com.example.finalprj.db.domain.*;
+import com.example.finalprj.db.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
@@ -27,6 +23,9 @@ public class ApiController {
     private final EntryService entryService;
     private final UserService userService;
 
+    private final TrashService trashService;
+    private final AlertService alertService;
+
     @PostMapping("/photo")
     public void insert(@RequestBody Photo photo) {
         PhotoDao photoDao = new PhotoDao();
@@ -39,23 +38,23 @@ public class ApiController {
         return photoDao.json();
     }
 
-    @GetMapping("/trash/get")
-    public String getTrash() {
-        TrashDao dao = new TrashDao();
-
-        return dao.json();
-    }
-
-    @GetMapping("/trash/put")
-    public void updateTrash(@RequestParam Integer status, @RequestParam Long id) {
-        Trash trash = Trash.builder()
-                .id(id)
-                .status(status)
-                .build();
-
-        TrashDao dao = new TrashDao();
-        dao.updateTrash(trash);
-    }
+//    @GetMapping("/trash/get")
+//    public String getTrash() {
+//        TrashDao dao = new TrashDao();
+//
+//        return dao.json();
+//    }
+//
+//    @GetMapping("/trash/put")
+//    public void updateTrash(@RequestParam Integer status, @RequestParam Long id) {
+//        Trash trash = Trash.builder()
+//                .id(id)
+//                .status(status)
+//                .build();
+//
+//        TrashDao dao = new TrashDao();
+//        dao.updateTrash(trash);
+//    }
 
     @GetMapping("/playground/get")
     public String getGeo() {
@@ -99,4 +98,38 @@ public class ApiController {
         }
         return entry;
     }
+
+
+    @GetMapping("/trash")
+    public ResponseEntity<Integer> trash_sensor() {
+        Trash trash = trashService.findById(1L).get();
+        Integer flag = trash.getStatus();
+        if (flag == 1) {
+            trash.setStatus(0);
+            trashService.updateTrash(trash);
+            return ResponseEntity.ok()
+                    .header("this is Header")
+                    .body(1);
+        }
+        return ResponseEntity.ok()
+                .header("this is Header")
+                .body(0);
+    }
+
+    @GetMapping("/alert")
+    public ResponseEntity<Integer> basic_sensor() {
+        Alert alert = alertService.findById(1L).get();
+        int flag = alert.getStatus();
+        if (flag == 1) {
+            alert.setStatus(0);
+            alertService.updateAlert(alert);
+            return ResponseEntity.ok()
+                    .header("this is Header")
+                    .body(1);
+        }
+        return ResponseEntity.ok()
+                .header("this is Header")
+                .body(0);
+    }
+
 }

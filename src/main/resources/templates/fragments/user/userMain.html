@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <script type="text/javascript" th:src="//dapi.kakao.com/v2/maps/sdk.js?appkey=+{kakaokey}&libraries=services"></script>
+            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6c17a22e95f421aa566af7eb9a3fa2ea"></script>
 
 
 
@@ -115,7 +115,7 @@
                 var map = new kakao.maps.Map(mapContainer, mapOption);
 
                 // 장소 검색 객체를 생성합니다
-                var ps = new kakao.maps.services.Places(map);
+                // var ps = new kakao.maps.services.Places(map);
 
 
                 playgrounds = JSON.parse([[${data}]]).data;

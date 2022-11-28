@@ -1,10 +1,7 @@
 package com.example.finalprj.web.user.controller;
 
 import com.example.finalprj.db.domain.*;
-import com.example.finalprj.db.service.EntryService;
-import com.example.finalprj.db.service.NoticeService;
-import com.example.finalprj.db.service.PhotoService;
-import com.example.finalprj.db.service.UserService;
+import com.example.finalprj.db.service.*;
 import com.example.finalprj.web.user.controller.vo.NoticeForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/manager")
@@ -25,6 +23,7 @@ public class ManagerController {
     private final EntryService entryService;
     private final PhotoService photoService;
     private final NoticeService noticeService;
+
 
     @GetMapping("/usage")
     public String usage(@AuthenticationPrincipal User user, Model model) {
@@ -163,5 +162,6 @@ public class ManagerController {
         model.addAttribute("myId", playgroundId);
         return "list";
     }
+
 
 }

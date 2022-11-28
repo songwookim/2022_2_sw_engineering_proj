@@ -90,7 +90,7 @@
                     <span>예약 관리</span></a>
             </li>
 
-            <li class="nav-item" th:classappend="${site} == images ? active">
+            <li class="nav-item" th:classappend="${site} == notices ? active">
                 <a class="nav-link" th:href="@{/manager/notices}">
                     <i class="fas fa-exclamation-circle"></i>
                     <span>놀이터 공지사항 관리</span></a>
@@ -142,4 +142,5 @@
 <!-- End of Sidebar -->
 
 </body>
+
 </html>

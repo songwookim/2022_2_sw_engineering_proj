@@ -118,6 +118,45 @@
             </div>
         </div>
     </div>
+
+    <div class="row h-100">
+        <!-- Area Chart -->
+        <div class="col-xl-12 col-lg-12">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">놀이터 공지사항</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="col-lg-12 col-xl-12 row justify-content-center align-items-center">
+                        <div class="col-10 mb-5 px-0" th:each="notice : ${notices}">
+                            <div class="card shadow">
+                                <div class="card card-header p-3 font-weight-bold flex-row justify-content-between" style="color: #dd954d;">
+                                    <div><span class="card-header-text" th:text="${notice.id}+'. '">index. </span>
+                                        <span class="card-header-text" th:id="'card-header-'+${notice.id}"
+                                              th:text="${notice.subject}">제목</span>
+                                    </div>
+                                    <a class="align-self-center" data-toggle="collapse"
+                                       th:href="'#collapseContent'+${notice.id}"
+                                       role="button" aria-expanded="false" th:aria-controls="'collapseExample'+${notice.id}">
+                                        <i class="card-header-text fas fa-caret-down"
+                                           style="font-size: 1.75rem; color: #dd954d;"></i>
+                                    </a>
+                                </div>
+                                <div class="collapse" th:id="'collapseContent'+${notice.id}">
+                                    <div class="card card-body pt-4">
+                                        <div th:id="'card-body-'+${notice.id}" th:text="${notice.content}">내용
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6c17a22e95f421aa566af7eb9a3fa2ea"></script>
 
     <script th:inline="javascript">

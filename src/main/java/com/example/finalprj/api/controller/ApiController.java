@@ -116,6 +116,7 @@ public class ApiController {
                 .body(0);
     }
 
+
     @GetMapping("/alert")
     public ResponseEntity<Integer> basic_sensor() {
         Alert alert = alertService.findById(1L).get();
@@ -132,4 +133,47 @@ public class ApiController {
                 .body(0);
     }
 
+    /////////// not JSON /////////////
+    // 1. 시스템
+    
+    // (시스템) 배변봉투감지센서
+    @GetMapping("/trash/{status}")
+    public String updateTrashStatus(@PathVariable int status) {
+        Trash trash = new Trash();
+        trash.setId(1L);
+        trash.setStatus(status);
+        trashService.updateTrash(trash);
+        return "1건이 실행되었습니다.";
+    }
+
+    // (앱) 사용자 호출 
+    @GetMapping("/alert/{status}")
+    public String updateAlertStatus(@PathVariable int status) {
+        Alert alert = new Alert();
+        alert.setId(1L);
+        alert.setStatus(status);
+        alertService.updateAlert(alert);
+
+        return "1건이 실행되었습니다.";
+    }
+//
+//    // (시스템) RFID 입장 (dogregNum으로 회원/비회원 구분)
+//    @GetMapping("/entry/{dogregNum}")
+//    public String saveEntryByDogRegNum(@PathVariable int dogregNum) {
+//        // entry에 이용중인 상태일 경우 퇴장처리
+//        return "1건이 실행되었습니다.";
+//    }
+//
+//    // (시스템) 회원가입(회원,비회원) 입장처리 API
+//    @GetMapping("/entry/{dogregNum}")
+//    public void registUser() {
+//        // 회원가입(회원,비회원) 입장처리 API + QueryParamter
+//    }
+//
+//    // (앱) 'RFID 입력 해주세요' 에서 Get으로 계속해서 요청
+//    @GetMapping("/entry/{dogregNum}")
+//    public int checkEntryIn(@PathVariable int dogregNum) {
+//        // 성공 시 1 반환
+//        return 1;
+//    }
 }
